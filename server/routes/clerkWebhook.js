@@ -54,11 +54,11 @@ router.post('/', express.raw({ type: 'application/json' }), async (req, res) => 
   let evt;
 
   try {
-    evt = wh.verify(req.body, {
-      'svix-id': svix_id,
-      'svix-timestamp': svix_timestamp,
-      'svix-signature': svix_signature,
-    });
+    evt = wh.verify(req.body.toString(), {
+  'svix-id': svix_id,
+  'svix-timestamp': svix_timestamp,
+  'svix-signature': svix_signature,
+});
   } catch (err) {
     console.error('Webhook verification failed:', err.message);
     return res.status(400).json({ error: 'Invalid signature' });
