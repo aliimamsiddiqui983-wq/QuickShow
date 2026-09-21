@@ -56,7 +56,7 @@ export const createBooking = async (req, res) => {
 
 
         // Cashfree Gateway
-const orderId = `order_${booking._id}`;
+const orderId = `order_${Date.now()}`;
 
 booking.orderId = orderId;
 
