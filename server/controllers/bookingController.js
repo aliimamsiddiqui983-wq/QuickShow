@@ -58,6 +58,8 @@ export const createBooking = async (req, res) => {
         // Cashfree Gateway
 const orderId = `order_${booking._id}`;
 
+booking.orderId = orderId;
+
 const cashfreeResponse = await axios.post(
     "https://sandbox.cashfree.com/pg/orders",
     {
