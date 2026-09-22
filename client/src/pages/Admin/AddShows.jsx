@@ -3,7 +3,7 @@ import Title from "../../components/Admin/Title";
 import { dummyShowsData } from "../../assets/assets";
 import Loading from "../../components/Loading";
 import { CheckIcon, DeleteIcon, StarIcon } from "lucide-react";
-import { kConverter } from "../../Libraries/kconverter";
+import { kConverter } from "../../Libraries/kConverter";
 import { useAppContext } from "../../context/appContext";
 import toast from "react-hot-toast";
 
