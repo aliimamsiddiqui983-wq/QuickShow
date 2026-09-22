@@ -3,8 +3,12 @@ import { dummyShowsData } from '../../assets/assets';
 import Loading from '../../components/Loading';
 import Title from '../../components/Admin/Title';
 import { dateFormat } from '../../Libraries/dateFormat';
+import { useAppContext } from '../../context/appContext';
 
 const ListShows = () => {
+
+    const { axios, getToken, user } = useAppContext();
+    
     const currency = import.meta.env.VITE_CURRENCY;
 
     const [shows, setShows] = useState([]);
@@ -12,17 +16,11 @@ const ListShows = () => {
 
     const getAllShows = async () => {
         try{
-            setShows([{
-                movie: dummyShowsData[0],
-                showDateTime: "2026-09-16T02:30:00.000Z",
-                showPrice: 59,
-                occupiesSeats: {
-                    A1: "user_1",
-                    B1: "user_2",
-                    C1: "user_3",
-                    
-                }
-            }]);
+           const { data } = await axios.get('/api/admin/all-shows', {
+            headers: {Authorization : `Bearer ${await getToken()}`}
+           })
+
+           setShows(data.shows);
             setLoading(false);
         } catch(error){
             console.error(error);
@@ -30,8 +28,11 @@ const ListShows = () => {
     }
 
     useEffect(()=>{
-        getAllShows();
-    },[])
+        if(user)
+        {
+            getAllShows();
+        }
+    },[user])
 
   return !loading ? (
     <>
@@ -52,8 +53,8 @@ const ListShows = () => {
                     <tr key={index}  className='border-b border-primary/10 bg-primary/5 even:bg-primary/10'>
                         <td className='p-2 min-w-45 pl-5 '> {show.movie.title} </td>
                         <td className='p-2'> {dateFormat(show.showDateTime)} </td>
-                        <td className='p-2'> {Object.keys(show.occupiesSeats).length} </td>
-                        <td className='p-2'> {currency} {Object.keys(show.occupiesSeats).length * show.showPrice} </td>
+                        <td className='p-2'> {Object.keys(show.occupiedSeats).length} </td>
+                        <td className='p-2'> {currency} {Object.keys(show.occupiedSeats).length * show.showPrice} </td>
                     </tr>
                 ))}
 
